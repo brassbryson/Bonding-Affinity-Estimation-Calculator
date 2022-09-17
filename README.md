@@ -28,6 +28,6 @@ This application is licensed under the MIT License. See LICENSE.txt for more det
 # Developers
 Bryson Chen
 # Acknowledgments
-Caitlin Maikawa, Postdoctoral Fellow at Brigham And Women's Hospital
+Caitlin Maikawa
 
 For all the math, science and documentation help!
