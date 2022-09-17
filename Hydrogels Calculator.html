@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BC Bonding Affinity Calculator</title>
+      <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/8.1.0/math.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  </head>
+    <h1 style="text-align: center; margin-left: -170px ;; ">Bonding Affinity Estimation Tool</h1>
+    <h4 style="text-align: center; margin-left: -170px ;; ">Welcome to this calculator! This is a bonding affinity estimation tool. The goal of this tool is to be able to estimate the gel point of a physically cross-linked dynamic hydrogel (eg. receptor-ligand, host-guest binding). Dynamic hydrogels are of interest, because they can be disrupted by competitor molecules and this trigger of dissociation can result in cargo release.     <br>
+      <a href="https://lh3.googleusercontent.com/dmX2uJ0QiAd9ibnMFQuLroy12hXEJhPG0ylqsVR56o1-HWoEswwlPT5PjPPC1Jg6ZekeCNZZEWgiuehXFXw-ygLMh9Q3xqslXDA09ZAgWlH3DA4s5jiPAsyVTSE7FdD0kRcsPyLRKg=w2400?source=screenshot.guru"> <img src="https://lh3.googleusercontent.com/dmX2uJ0QiAd9ibnMFQuLroy12hXEJhPG0ylqsVR56o1-HWoEswwlPT5PjPPC1Jg6ZekeCNZZEWgiuehXFXw-ygLMh9Q3xqslXDA09ZAgWlH3DA4s5jiPAsyVTSE7FdD0kRcsPyLRKg=w600-h315-p-k" style="height:250px;width:475px;"/> </a>
+      <a href="https://lh3.googleusercontent.com/VLDx1GDcqINmoeK3WJQvWyl3pJlesx4xqZiIxzAHw8qNUCu0-q6bwp3qPf6AH-QU1Qr8GZ8ekM0gXh-PRWPERvjlIHitBXbVisOwkzmwPPnbjzH6fG8eU0RBm9TfM0W0pau8uHDs-w=w2400?source=screenshot.guru"> <img src="https://lh3.googleusercontent.com/VLDx1GDcqINmoeK3WJQvWyl3pJlesx4xqZiIxzAHw8qNUCu0-q6bwp3qPf6AH-QU1Qr8GZ8ekM0gXh-PRWPERvjlIHitBXbVisOwkzmwPPnbjzH6fG8eU0RBm9TfM0W0pau8uHDs-w=w600-h315-p-k" style="height:280px;width:515px;"/> </a>
+     <br>
+      <br>
+      <br>
+      This calculator combines the Stockmayer equation to estimate the gel point of a polymer system (with and without a competitor molecule present). When the gel point is >100% the system does not gel. The system is made up of a receptor (species A), ligand 1 and ligand 2 (species B). For our purposes, we consider ligand 2 a monovalent competitor molecule that acts as an end capper. But a different functionality for ligand 2 can be inputted.  <br>
+      <br>
+        Stockmayer equation: Pg = [r (f<sub>w,R</sub> - 1)(f<sub>w,L</sub>-1)]<sup>-1/2</sup> <br><br>
+        <a href="https://lh3.googleusercontent.com/IrEq1LHtU2iq00wkC-8Xkr8ZP9zbCsrJz6p2ocUtP_bF2hVE5KK-v2iBQVHH8F85dbo0IIVhbt9fMrUVXha5OYqdH3r6ef52EZTc9JbYl00Quonz2eIq9BoUUIHFV3kvAEGz61sb=w2400?source=screenshot.guru"> <img src="https://lh3.googleusercontent.com/IrEq1LHtU2iq00wkC-8Xkr8ZP9zbCsrJz6p2ocUtP_bF2hVE5KK-v2iBQVHH8F85dbo0IIVhbt9fMrUVXha5OYqdH3r6ef52EZTc9JbYl00Quonz2eIq9BoUUIHFV3kvAEGz61sb=w196-h145-p-k"  style="width:100px;height:70px;"/> </a>       
+        &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; 
+        &#8205; &#8205; &#8205; &#8205; &#8205; &#8205;
+        <a href="https://lh3.googleusercontent.com/cWZpTrPmdxzCg0eeR_tGx2O4DA225XRMk9tzSfVVepHoLlCub9rPFTyW7ZAUG46PkpQCsVo7m3ur3mBYuyypGL6X0qs5-mySjlAQvOmvTZmRDvX_0MbkOXQNrxUi78sfBbWO6ymS=w2400?source=screenshot.guru"> <img src="https://lh3.googleusercontent.com/cWZpTrPmdxzCg0eeR_tGx2O4DA225XRMk9tzSfVVepHoLlCub9rPFTyW7ZAUG46PkpQCsVo7m3ur3mBYuyypGL6X0qs5-mySjlAQvOmvTZmRDvX_0MbkOXQNrxUi78sfBbWO6ymS=w240-h162-p-k"  style="width:120px;height:80px;"/> </a>      
+        &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; 
+        &#8205; &#8205; &#8205; &#8205; &#8205; &#8205;
+        <a href="https://lh3.googleusercontent.com/g_SoIFeLhtDmoLyWnD2OQwLYLr4lrsNt5Vjgv9kBKqXJ9AqE5ec2s5VQeVkg79iV3yRfrXLSzP8mBmbZ_dVZnqdbKkFlZJn2b903YsMIQLAMGFPk22of6cVIWARuLMRR-geAX9b-=w2400?source=screenshot.guru"> <img src="https://lh3.googleusercontent.com/g_SoIFeLhtDmoLyWnD2OQwLYLr4lrsNt5Vjgv9kBKqXJ9AqE5ec2s5VQeVkg79iV3yRfrXLSzP8mBmbZ_dVZnqdbKkFlZJn2b903YsMIQLAMGFPk22of6cVIWARuLMRR-geAX9b-=w240-h162-p-k"  style="width:118px;height:79px;" /> </a>           
+        <br>
+        <br>
+        Pg = Gel point<br>
+      
+        N<sub>R</sub> = Molar equivalents of receptor<br>
+      
+        N<sub>L</sub> = Molar equivalents of ligands<br>
+      
+        F<sub>R</sub> = Functional groups on receptor<br>
+      
+        F<sub>L</sub> = Functional groups on ligands<br>
+        <br><br>
+      
+      
+      
+      It also uses receptor-ligand binding equilibria equations [1] to determine the percentage of dynamic interactions that are in a bound state at a given time.
+      <br>
+      [R] + [L] ↔ [RL]<br>
+      
+      [R] + [L<sub>1</sub>] + [L<sub>2</sub>] ↔ [RL<sub>1</sub>] + [RL<sub>2</sub>]  
+      <br><br>
+      <strong>Getting Started</strong><br>
+      
+      To get started, please fill out all of the input fields. Each input field has a short description of what is to be inputted as well as the appropriate units to ensure a valid response from the calculator. Please note that only numerical values are accepted in the input fields.
+      <br><br>
+      
+      The first part of the calculator calculates the gel point of the parameters you enter into the input fieldsusing the Stockmayer equation. The calculations are performed twice, with and without a ligand 2 to estimate for the gel point with and without competitor. (If ligand 2 has a functionality >1 it will contribute to the formation of the gel). Note:  the gel point function of this calculator underestimates the % of bonds that must form since it does not account for loop formation.
+      <br><br>
+      The second part of the calculator calculates the binding affinity. A cubic equation calculator is built into this in order to solve the without competitor result, and a quadratic equation calculator is used to solve the with competitor result. In both calculations the % of ligand 1 bound to the receptor is reported. The % bound receptor-ligand 1 calculated can be compared to the gel point from the Stockmayer equation to determine if the system is a gel.
+      <br><br>
+      The graph visualizes the relationship between % bound receptor-ligand 1 and the concentration of competitor ligand 2 (L2) with ± 10 of the value (to give a range of values to help visualize which direction values may need to be for a more effective gel depending on use case. The Y axis is the percent receptor bound with competitor (the output of the binding affinity function). There is an orange threshold line which is the gel point as calculated by the Stockmayer equation.
+      <br><br><br>
+      The code is open-source and can be found at https://github.com/brassbryson/Bonding-Affinity-Estimation-Calculator.git
+      <br>
+      References:
+      
+      [1] J. Paakkonen, J. Janis, J. Rouvinen. Calculation and Visualization of Binding Equilibria in Protein Studies. ACS OMEGA, 2022, 7, 10789-10795. 
+      </h4>
+
+    <form id="calulator_form" onsubmit="stockmayer(event.preventDefault())">
+      
+      <div class="row">
+        <div class="column">
+          
+          <h2> &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; 
+            &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205;  Inputs</h2>
+          
+      <label for="kd1">K<sub>D,1</sub> (dissociation constant for Ligand 1):</label>
+      <br>
+      <input type="number" id="kd1"  min="0" max="1000000" step="0.000000000000001"required>
+      <br>
+      <br>
+      <label for="kd2">K<sub>D,2</sub> (dissociation constant for Ligand 2):</label>
+      <br>
+      <input type="number" id="kd2"  min="0" max="1000000" step="0.000000000000001" required>
+      <br>
+      <br>
+      <label for="l1">[L<sub>1</sub>] (Concentration (M) of Ligand 1):</label>
+      <br>
+      <input type="number" id="L1"  min="0" max="1000000" step="0.000000000000001" required>
+      <br>
+      <br>
+      <label for="l2">[L<sub>2</sub>] (Concentration (M) of Ligand 2):</label>
+      <br>
+      <input type="number" id="L2"  min="0" max="1000000" step="0.000000000000001" required>
+      <br>
+      <br>
+      <label for="R (m)">[R] (Concentration (M) of Receptor):</label>
+      <br>
+      <input type="number" id="R"  min="0" max="1000000" step="0.000000000000001" required>
+      <br>
+      <br>
+      <label for="V (L)">Volume (L) :</label>
+      <br>
+      <input type="number" id="v"  min="0" max="1000000" step="0.00000000001" required>
+      <br>
+      <br>
+      <label for="fML">f<sub>ML1</sub> (functionality/number of ligands on monomer L1):</label>
+      <br>
+      <input type="number" id="fML"  min="0" max="1000000" step="1" required>
+      <br>
+      <br>
+      <label for="fML">f<sub>ML2</sub> (functionality/number of ligands on monomer L2):</label>
+      <br>
+      <input type="number" id="fML2"  min="0" max="1000000" step="1" required>
+      <br>
+      <br>
+      <label for="fMR">f<sub>MR</sub> (functionality/number of ligands on monomer R):</label>
+      <br>
+      <input type="number" id="fMR"  min="0" max="1000000" step="1" required>
+      <br>
+      <br>
+      <input type="submit">
+      <input type="reset">
+
+      
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+      <div class="column">
+        <br>
+    <h2> &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; 
+      &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; &#8205; 
+      &#8205; &#8205; &#8205; &#8205; &#8205; &#8205;  Results</h2>  
+      <p id="resultat"></p>
+      <br>
+      <br>
+      <p2 id="resultat2"></p2>
+      <br>
+      <!-- style="text-decoration: underline;" -->
+   
+    </div>
+    <div style="margin:auto;">
+    
+      <canvas style="width: 600px; height: 375px;"id="my_graph"></canvas>
+      </div>
+    </div>
+    </form>
+  </div>
+  </body>
+</html>
+
+<script type="text/javascript">
+  var stockmayer_for_graph;
+  function stockmayer ()
+  {
+  var v = parseFloat(document.getElementById("v") .value);
+  var fML = parseFloat(document.getElementById("fML") .value);
+  var fML2 = parseFloat(document.getElementById("fML2") .value);
+  var fMR = parseFloat(document.getElementById("fMR") .value);
+  var l1 = parseFloat(document.getElementById("L1") .value);
+  var l2 = parseFloat(document.getElementById("L2") .value);
+  var r = parseFloat(document.getElementById("R") .value);
+
+//without competitor
+
+  var nML = (l1*v)/fML
+  var nMR = (r*v)/fMR
+  var sr = (((nMR)*fMR))/(((nML)*fML))
+  var fw1a = ((nML* Math.pow(fML ,2)))/((nML*fML))
+  var fw1b = ((nMR* Math.pow(fMR ,2)))/((nMR*fMR))
+  var stockmayer = Math.round((Math.pow ((sr*(fw1a - 1)*(fw1b -1)),-1/2))*100)
+  stockmayer_for_graph = stockmayer;
+
+
+// with competitor
+
+  var nML2 = (l2*v)/fML2
+  var sr2 = (((nMR)*fMR))/((((nML)*fML))+((nML2)*(fML2)))
+  var fw1a2 = ((nML* Math.pow(fML ,2))+(nML2*Math.pow(fML2 ,2)))/((nML*fML)+(nML2*fML2))
+  var stockmayerwc = Math.round((Math.pow ((sr2*(fw1a2 - 1)*(fw1b -1)),-1/2))*100)
+
+//=======
+
+  console.log((l1*v)/fML, (r*v)/fMR, (((nML)*fML))/(((nMR)*fMR)), ((nML* Math.pow(fML ,2)))/((nML*fML)), ((nMR* Math.pow(fMR ,2)))/((nMR*fMR)), (Math.pow ((sr*(fw1a - 1)*(fw1b -1)),-1/2))*100, (l1*v)/fML, (l2*v)/fML2, (r*v)/fMR, (((nML)*fML))+((nML2)*(fML2))/(((nMR)*fMR)), ((nML* Math.pow(fML ,2))+(nML2*Math.pow(fML2 ,2)))/((nML*fML)+(nML2*fML2)), ((nMR* Math.pow(fMR ,2)))/((nMR*fMR))), (Math.pow ((sr*(fw1a - 1)*(fw1b -1)),-1/2))*100;
+
+  document.getElementById("resultat") .innerHTML = "The gel point (Pg) calculated without competitor is " + stockmayer + "%" + " and is " + stockmayerwc +"% with competitor"
+  .toString();
+    // + "  =========TESTING VAR PRINTS=========   nmL:"+ nML + "   nMR:" + nMR + "      sr:" + sr + "      fw1a:" + fw1a +"      fw1b:" + fw1b + "      nml2:" + nML2 + "      sr2:" + sr2 + "      fw1a2:" + fw1a2 
+  
+  // call binding function
+  binding1();
+  generate_data();
+  
+  return false; // get rid of default behavior which is to "submit" it to some backend
+  }
+
+// binding affinity side -->
+
+  function binding1 ()
+  {
+  var kd1 = parseFloat(document.getElementById("kd1") .value);  
+  var kd2 = parseFloat(document.getElementById("kd1") .value);
+  var v = parseFloat(document.getElementById("v") .value);
+  var fML = parseFloat(document.getElementById("fML") .value);
+  var fML2 = parseFloat(document.getElementById("fML2") .value);
+  var fMR = parseFloat(document.getElementById("fMR") .value);
+  var L1 = parseFloat(document.getElementById("L1") .value);
+  var L2 = parseFloat(document.getElementById("L2") .value);
+  var R = parseFloat(document.getElementById("R") .value);
+
+// without competitor cubic function    (https://gist.github.com/weepy/6009631)
+
+  var a = 1  
+  var b = L1+L2-R+kd1+kd2     //31
+  var c = (L1)*(kd2)+(L2)*(kd1)+(kd2)*(kd1)-R*(kd1+kd2)     //32
+  var d = (-R)*(kd1)*(kd2)    //33
+
+  CubicSolve(a, b, c, d);
+  }
+   function CubicSolve(a, b, c, d)
+   {
+
+b /= a;
+c /= a;
+d /= a;
+
+var discrim, q, r, dum1, s, t, term1, r13;
+
+q = (3.0*c - (b*b))/9.0;
+r = -(27.0*d) + b*(9.0*c - 2.0*(b*b));
+r /= 54.0;
+
+discrim = q*q*q + r*r;
+
+var roots = [ {real: 0, i: 0}, {real: 0, i: 0}, {real: 0, i: 0} ]
+
+term1 = (b/3.0);
+
+if (discrim > 0) { // one root real, two are complex
+ s = r + Math.sqrt(discrim);
+ s = ((s < 0) ? -Math.cbrt(-s) : Math.cbrt(s));
+ t = r - Math.sqrt(discrim);
+ t = ((t < 0) ? -Math.cbrt(-t) : Math.cbrt(t));
+ 
+ roots[0].real = -term1 + s + t;
+ term1 += (s + t)/2.0;
+ roots[1].real = roots[2].real = -term1;
+ term1 = Math.sqrt(3.0)*(-t + s)/2;
+ 
+ roots[1].i = term1;
+ roots[2].i = -term1;
+ return roots;
+} // End if (discrim > 0)
+
+// The remaining options are all real
+
+
+if (discrim == 0){ // All roots real, at least two are equal.
+ r13 = ((r < 0) ? -Math.cbrt(-r) : Math.cbrt(r));
+ roots[0].real = -term1 + 2.0*r13;
+ roots[2].real = roots[1].real = -(r13 + term1);
+ return roots;
+} // End if (discrim == 0)
+
+// Only option left is that all roots are real and unequal (to get here, q < 0)
+q = -q;
+dum1 = q*q*q;
+dum1 = Math.acos(r/Math.sqrt(dum1));
+r13 = 2.0*Math.sqrt(q);
+
+roots[0].real = -term1 + r13*Math.cos(dum1/3.0);
+roots[1].real = -term1 + r13*Math.cos((dum1 + 2.0*Math.PI)/3.0);
+roots[2].real = -term1 + r13*Math.cos((dum1 + 4.0*Math.PI)/3.0);
+
+var root1 = roots[0].real
+var root2 = roots[1].real
+var root3 = roots[2].real
+
+var fl = root1;
+  if (root2 > 0 && root2 < R)
+    fl = root2;
+  if (root3 > 0 && root3 < R)
+    fl = root2;
+
+    //with competitor quadratic function
+  var kd1 = parseFloat(document.getElementById("kd1") .value);  
+  var kd2 = parseFloat(document.getElementById("kd1") .value);
+  var v = parseFloat(document.getElementById("v") .value);
+  var fML = parseFloat(document.getElementById("fML") .value);
+  var fML2 = parseFloat(document.getElementById("fML2") .value);
+  var fMR = parseFloat(document.getElementById("fMR") .value);
+  var L1 = parseFloat(document.getElementById("L1") .value);
+  var L2 = parseFloat(document.getElementById("L2") .value);
+  var R = parseFloat(document.getElementById("R") .value);
+
+  var ra = 1
+  var rb = -(R-L1-kd1)
+  var rc = -(R*kd1)
+
+  var Rf1 = (-rb+(Math.sqrt((Math.pow(rb,2))-4*ra*rc)))/(2*ra)
+  var Rf2 = (-rb-(Math.sqrt((Math.pow(rb,2))-4*ra*rc)))/(2*ra)
+
+  var Rf = Rf1;
+  if (Rf2 > 0 && x2 < R)
+    Rf = Rf2;
+
+
+
+  var L1f = (L1*kd1)/(Rf+kd1)         //15
+  var RL = (L1*Rf)/(Rf+kd1)       //16
+  var L2f = ((L2)*(kd2))/((fl)+(kd2))     //28
+  var RL2 = ((L2)*(fl))/((fl)+(kd2))          //29
+
+
+  var bindingnc = Math.round((RL)/((RL)+(Rf))*100)
+  var bindingwc = Math.round(((RL))/((RL)+(RL2)+(fl))*100)
+
+  console.log(bindingnc, bindingwc)
+  
+  
+  //(RL)/((RL)+(RL2)+(Rf))*100      original
+                 // ((RL)+(RL2))/((RL)+(RL2)+(Rf))*100       possible
+ 
+          
+
+  document.getElementById("resultat2") .innerHTML = "The % Receptor Bound without competitor is " + bindingnc + "% and is " + bindingwc + "% with competitor ".toString();
+  // return false; // get rid of default behavior which is to "submit" it to some backend
+  }
+  </script>
+
+<script>
+  function binding_graph_data(L2)
+  {
+
+  var kd1 = parseFloat(document.getElementById("kd1") .value);  
+  var kd2 = parseFloat(document.getElementById("kd1") .value);
+  var v = parseFloat(document.getElementById("v") .value);
+  var fML = parseFloat(document.getElementById("fML") .value);
+  var fML2 = parseFloat(document.getElementById("fML2") .value);
+  var fMR = parseFloat(document.getElementById("fMR") .value);
+  var L1 = parseFloat(document.getElementById("L1") .value);
+  var R = parseFloat(document.getElementById("R") .value);
+
+// without competitor cubic function    (https://gist.github.com/weepy/6009631)
+
+  var a = 1;  
+  var b = L1+L2-R+kd1+kd2;     //31
+  var c = (L1)*(kd2)+(L2)*(kd1)+(kd2)*(kd1)-R*(kd1+kd2);     //32
+  var d = (-R)*(kd1)*(kd2);    //33
+
+  return CubicSolve2(a, b, c, d, L2);
+  }
+
+  function CubicSolve2(a, b, c, d, L2) 
+  {
+
+  b /= a;
+  c /= a;
+  d /= a;
+
+  var discrim, q, r, dum1, s, t, term1, r13;
+
+  q = (3.0*c - (b*b))/9.0;
+  r = -(27.0*d) + b*(9.0*c - 2.0*(b*b));
+  r /= 54.0;
+
+  discrim = q*q*q + r*r;
+
+  var roots = [ {real: 0, i: 0}, {real: 0, i: 0}, {real: 0, i: 0} ]
+
+  term1 = (b/3.0);
+
+  if (discrim > 0) { // one root real, two are complex
+  s = r + Math.sqrt(discrim);
+  s = ((s < 0) ? -Math.cbrt(-s) : Math.cbrt(s));
+  t = r - Math.sqrt(discrim);
+  t = ((t < 0) ? -Math.cbrt(-t) : Math.cbrt(t));
+  
+  roots[0].real = -term1 + s + t;
+  term1 += (s + t)/2.0;
+  roots[1].real = roots[2].real = -term1;
+  term1 = Math.sqrt(3.0)*(-t + s)/2;
+  
+  roots[1].i = term1;
+  roots[2].i = -term1;
+  return roots;
+  } // End if (discrim > 0)
+
+  // The remaining options are all real
+
+
+  if (discrim == 0){ // All roots real, at least two are equal.
+  r13 = ((r < 0) ? -Math.cbrt(-r) : Math.cbrt(r));
+  roots[0].real = -term1 + 2.0*r13;
+  roots[2].real = roots[1].real = -(r13 + term1);
+  return roots;
+  } // End if (discrim == 0)
+
+  // Only option left is that all roots are real and unequal (to get here, q < 0)
+  q = -q;
+  dum1 = q*q*q;
+  dum1 = Math.acos(r/Math.sqrt(dum1));
+  r13 = 2.0*Math.sqrt(q);
+
+  roots[0].real = -term1 + r13*Math.cos(dum1/3.0);
+  roots[1].real = -term1 + r13*Math.cos((dum1 + 2.0*Math.PI)/3.0);
+  roots[2].real = -term1 + r13*Math.cos((dum1 + 4.0*Math.PI)/3.0);
+
+  var root1 = roots[0].real
+  var root2 = roots[1].real
+  var root3 = roots[2].real
+
+  var fl = root1;
+    if (root2 > 0 && root2 < R)
+      fl = root2;
+    if (root3 > 0 && root3 < R)
+      fl = root2;
+
+      //with competitor quadratic function
+    var kd1 = parseFloat(document.getElementById("kd1") .value);  
+    var kd2 = parseFloat(document.getElementById("kd1") .value);
+    var v = parseFloat(document.getElementById("v") .value);
+    var fML = parseFloat(document.getElementById("fML") .value);
+    var fML2 = parseFloat(document.getElementById("fML2") .value);
+    var fMR = parseFloat(document.getElementById("fMR") .value);
+    var L1 = parseFloat(document.getElementById("L1") .value);
+    var R = parseFloat(document.getElementById("R") .value);
+
+    var ra = 1
+    var rb = -(R-L1-kd1)
+    var rc = -(R*kd1)
+
+    var Rf1 = (-rb+(Math.sqrt((Math.pow(rb,2))-4*ra*rc)))/(2*ra)
+    var Rf2 = (-rb-(Math.sqrt((Math.pow(rb,2))-4*ra*rc)))/(2*ra)
+
+    var Rf = Rf1;
+    if (Rf2 > 0 && x2 < R)
+      Rf = Rf2;
+
+
+
+    var L1f = (L1*kd1)/(Rf+kd1)         //15
+    var RL = (L1*Rf)/(Rf+kd1)       //16
+    var L2f = ((L2)*(kd2))/((fl)+(kd2))     //28
+    var RL2 = ((L2)*(fl))/((fl)+(kd2))          //29
+
+
+    var bindingnc = Math.round((RL)/((RL)+(Rf))*100)
+
+    return ((RL))/((RL)+(RL2)+(fl))*100; // get rid of default behavior which is to "submit" it to some backend
+  }
+
+  var colors = ["#70B9B5", "#EB8138", "#6E6CC0", "#E64445", "#8E99A0", "#38A9C7"] // These colors are the bomb
+  var chart_data = {
+      datasets: [
+          {
+              id: "y_vals",
+              label: "Percent Receptor Bound",
+              borderColor: colors[0],
+              showLine: true,
+              data: [],
+              pointRadius: 0,
+          },
+          {
+              id: "stockmayer_nc",
+              label: "Stockmayer Gel Point w/o competitor",
+              borderColor: colors[1],
+              showLine: true,
+              data: [],
+              pointRadius: 0,
+          },
+      ]
+
+  };
+
+  function generate_data() {
+    var L2 = parseFloat(document.getElementById("L2").value);
+    
+    var x_coords = numeric.linspace(0, L2 + 10, 100);
+    var y_coords = []
+    for (var i = 0; i < 100; i++) {
+      y_coords.push(binding_graph_data(x_coords[i]));
+    }
+
+    for (var i = 0; i < 2; i++) {
+      window.chart.data.datasets[i].data = [];
+    }
+    window.chart.data.datasets[0].data = x_coords.map((x_data, j) => ({
+        x: +x_data.toPrecision(4), y: y_coords[j]}));
+
+    window.chart.data.datasets[1].data = x_coords.map((x_data, j) => ({
+        x: +x_data.toPrecision(4), y: stockmayer_for_graph}));
+
+
+    window.chart.update();
+  }
+
+  window.onload = function() {
+    var ctx = document.getElementById("my_graph").getContext("2d");
+    window.chart = new Chart(ctx, {
+        type: "scatter",
+        data: chart_data,
+        options: {
+            responsive: true,
+            title: {
+                display: false,
+                text: "Graph label"
+            },
+            animation: {
+                duration: 0 // general animation time
+            },
+            hover: {
+                animationDuration: 0 // duration of animations when hovering an item
+            },
+            responsiveAnimationDuration: 0, // animation duration after a resize
+            legend: {
+                display: true,
+                labels: {
+                    filter: function (item, chart) {
+                        return chart_data.datasets[item.datasetIndex].data.length; // if there is no data, length -> 0
+                    }
+                },
+            },
+            scales: {
+                xAxes: [{
+                    position: "bottom",
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Concentration of Competitior/L2",
+                    },
+                    gridLines: {
+                        drawOnChartArea: false,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    position: "left",
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Percent Receptor Bound",
+                    },
+                    gridLines: {
+                        drawOnChartArea: false,
+                    },
+                    ticks: {
+                      beginAtZero: true,
+                    }
+                }]
+            }, 
+            elements: {
+                line: {
+                    fill: false,
+                },
+                gridLines: {
+                    drawOnChartArea: false,
+                },
+            }
+
+        },
+    })
+  };
+</script>
+
+<!-- for testing + " &#8205; &#8205; &#8205; &#8205; &#8205; " + " a " + a + " b " + b + " c " + c + " d" + d + " fl " + fl + " L1f " + L1f + " RL " + RL + " L2f " + L2f + "RL2" + RL2 + " Rf1 " + Rf1 + " Rf2 " + Rf2 + " selected Rf " + Rf + " ra " + ra + " rb " + rb + " rc " + rc + " root1 " + root1 + " root2 " + root2 + " root3 " + root3 + " selected fl " + fl --
+
+
+For graphing, x axis concentration of competitor/L2, and Y axis is percent receptor
+   bound with competitor (output of binding affinity) Put Pg withour competitor as a 
+   threshold/line on graph -->
+
+   <!-- make graph smaller -->
+
+  
