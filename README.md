@@ -29,4 +29,5 @@ This application is licensed under the MIT License. See LICENSE.txt for more det
 Bryson Chen
 # Acknowledgments
 Caitlin Maikawa, Postdoctoral Fellow at Brigham And Women's Hospital
+
 For all the math, science and documentation help!
