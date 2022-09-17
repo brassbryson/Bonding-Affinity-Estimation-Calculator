@@ -23,7 +23,7 @@ calculator as well as how to operate the calculator are on the calculator homepa
 -The code for this application is open source and can be downloaded and modified as you wish.
 
 # Licensing
-This application is licensed under the MIT License. See LICENSE.txt for more details.
+This application is licensed under the MIT License. See LICENSE.md for more details.
 
 # Developers
 Bryson Chen
